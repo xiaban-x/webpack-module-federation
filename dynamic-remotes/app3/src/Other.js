@@ -1,5 +1,5 @@
 import React from 'react';
 
-const Button = () => <button>Dynamically Loaded With new plugin</button>;
-
-export default Button;
+export default () => {
+    return <button>App3的其他组件</button>
+};
