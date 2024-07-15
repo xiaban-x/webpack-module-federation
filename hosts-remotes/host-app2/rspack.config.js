@@ -1,5 +1,7 @@
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const ModuleFederationPlugin = require("webpack").container.ModuleFederationPlugin;
+const {
+    HtmlRspackPlugin,
+    container: { ModuleFederationPlugin },
+} = require('@rspack/core');
 const path = require("path");
 
 module.exports = {
@@ -9,10 +11,10 @@ module.exports = {
         static: {
             directory: path.join(__dirname, "dist"),
         },
-        port: 3003,
+        port: 3001,
     },
     output: {
-        publicPath: "http://localhost:3003/",
+        publicPath: "http://localhost:3001/",
     },
     module: {
         rules: [
@@ -29,14 +31,15 @@ module.exports = {
         new ModuleFederationPlugin({
             name: "hostApp2",
             remotes: {
-                remoteApp: "remoteApp@http://localhost:3001/remoteEntry.js",
+                remoteApp: "remoteApp@http://localhost:3002/remoteEntry.js",
+                remoteApp2: "remoteApp2@http://localhost:3003/remoteEntry.js",
             },
             shared: {
                 react: { singleton: true, eager: true },
                 "react-dom": { singleton: true, eager: true },
             },
         }),
-        new HtmlWebpackPlugin({
+        new HtmlRspackPlugin({
             template: "./public/index.html",
         }),
     ],
